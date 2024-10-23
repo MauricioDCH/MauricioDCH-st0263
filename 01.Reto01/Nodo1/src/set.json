@@ -1,0 +1,20 @@
+{
+    "BOOTS": {
+        "node_id_client": 6,
+        "node_id_predecessor": 5,
+        "node_status": true
+    },
+    "GET": {
+        "node_id_client": 6,
+        "node_ip_chord_node": "181.136.47.24:50051",
+        "node_id_predecessor": 5,
+        "node_ip_successor": "181.136.47.24:50051",
+        "node_port_successor": 50051,
+        "number_of_nodes_in_network": 7
+    },
+    "FT": {
+        "1": "181.136.47.24:50051",
+        "2": "181.136.47.24:50051",
+        "4": "181.136.47.24:50051"
+    }
+}

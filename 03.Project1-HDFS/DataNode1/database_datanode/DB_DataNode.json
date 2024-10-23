@@ -1,0 +1,56 @@
+[
+    {
+        "nombre": "follower",
+        "tipo": "carpeta",
+        "tamano-bytes": null,
+        "fecha_modificacion": "Fri Oct 18 14:48:44 2024",
+        "usuario": "mdch",
+        "cantidad_archivos": 1,
+        "subcarpetas-archivos-internos": [
+            {
+                "nombre": "a.txt",
+                "tipo": "carpeta",
+                "tamano-bytes": null,
+                "fecha_modificacion": "Fri Oct 18 14:37:41 2024",
+                "usuario": "mdch",
+                "cantidad_archivos": 1,
+                "subcarpetas-archivos-internos": [
+                    {
+                        "nombre": "bloque_49.bin",
+                        "tipo": "archivo",
+                        "tamano-bytes": 17,
+                        "fecha_modificacion": "Fri Oct 18 14:37:41 2024",
+                        "usuario": "mdch"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "nombre": "leader",
+        "tipo": "carpeta",
+        "tamano-bytes": null,
+        "fecha_modificacion": "Fri Oct 18 14:48:44 2024",
+        "usuario": "mdch",
+        "cantidad_archivos": 1,
+        "subcarpetas-archivos-internos": [
+            {
+                "nombre": "a.txt",
+                "tipo": "carpeta",
+                "tamano-bytes": null,
+                "fecha_modificacion": "Fri Oct 18 14:37:41 2024",
+                "usuario": "mdch",
+                "cantidad_archivos": 1,
+                "subcarpetas-archivos-internos": [
+                    {
+                        "nombre": "bloque_50.bin",
+                        "tipo": "archivo",
+                        "tamano-bytes": 16,
+                        "fecha_modificacion": "Fri Oct 18 14:37:41 2024",
+                        "usuario": "mdch"
+                    }
+                ]
+            }
+        ]
+    }
+]

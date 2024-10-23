@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' /home/mdch/Documents/01._Ingeniería_de_Sistemas-EAFIT/04._SEM/06._S6-2024.02/04.Top_Telem/04-ACTIVIDADES/100.Solucion_retos/01.Reto01/Reto01-Mauricio-Salomon-LOCAL/Application/reto1/bin/python "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from flask.cli import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())

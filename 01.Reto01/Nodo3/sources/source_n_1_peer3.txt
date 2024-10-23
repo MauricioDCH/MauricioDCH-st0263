@@ -1,0 +1,20 @@
+source_n_1_p1.txt source_n_2_p1.txt source_n_3_p1.txt
+
+bootstrapManager.py fingerTableManager.py fingerTableUtils.py peerAsClient.py peerAsServer.py resourcesIndexer.py
+
+
+
+touch client.py server.py
+mkdir files
+touch file1.txt file2.txt
+
+
+├── files
+│   ├── file1.txt
+│   └── file2.txt
+├── gnutella_pb2_grpc.py
+├── gnutella_pb2.py
+├── __pycache__
+│   ├── gnutella_pb2.cpython-312.pyc
+│   └── gnutella_pb2_grpc.cpython-312.pyc
+└── server.py

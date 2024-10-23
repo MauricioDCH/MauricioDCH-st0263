@@ -1,0 +1,61 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Para Entrono Virtual. |
+----------------------|
+    Para crear un entorno virtual:  python -m venv venv
+    Para activarlo: source venv/bin/activate
+    Para desactivarlo: deactivate
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Generación archivos Python generados por el archivo proto. |
+-----------------------------------------------------------|
+
+Para crear los archivos de python generados por el archivo proto desde el directorio: /Reto01-Mauricio-Salomon-LOCAL/Application/src
+Comando: python -m grpc_tools.protoc -I./protos --python_out=. --pyi_out=. --grpc_python_out=. ./protos/peerCommunications.proto
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Instalar requirements. |
+-----------------------|
+
+pip install -r requirements.txt
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+- Distrubución real de la Estructura de Directorios (Sin contar la carpeta de venv). |
+-------------------------------------------------------------------------------------|
+
+Nodo0, Nodo1, Nodo2, Nodo3, Nodo4, Nodo5
+├── configs
+│   ├── settings_Chord_Node.json
+│   └── settings.json
+├── requirements.txt
+├── reto1
+│   ├── ...
+├── sources
+│   ├── example.txt
+│   ├── source_n_1_peer0.txt
+│   ├── source_n_2_peer0.txt
+│   └── source_n_3_peer0.txt
+└── src
+    ├── bootstrap.py
+    ├── ChordNode.py
+    ├── client.py
+    ├── FingerTableGenerator.py
+    ├── getData.py
+    ├── __init__.py
+    ├── peerCommunications_pb2_grpc.py
+    ├── peerCommunications_pb2.py
+    ├── peerCommunications_pb2.pyi
+    ├── protos
+    │   └── peerCommunications.proto
+    ├── __pycache__
+    │   ├── bootstrap.cpython-312.pyc
+    │   ├── createSettings.cpython-312.pyc
+    │   ├── FingerTableGenerator.cpython-312.pyc
+    │   ├── getData.cpython-312.pyc
+    │   ├── __init__.cpython-312.pyc
+    │   ├── peerAsServer.cpython-312.pyc
+    │   ├── peerCommunications_pb2.cpython-312.pyc
+    │   ├── peerCommunications_pb2_grpc.cpython-312.pyc
+    │   └── resourcesIndexer.cpython-312.pyc
+    ├── serverAsClient.py
+    ├── serverAsServer.py
+    └── serverMain.py

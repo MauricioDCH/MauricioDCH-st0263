@@ -1,0 +1,26 @@
+[
+    {
+        "NodeID": 0,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 3,
+        "Successor": 1
+    },
+    {
+        "NodeID": 1,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 0,
+        "Successor": 2
+    },
+    {
+        "NodeID": 2,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 1,
+        "Successor": 3
+    },
+    {
+        "NodeID": 3,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 2,
+        "Successor": 0
+    }
+]

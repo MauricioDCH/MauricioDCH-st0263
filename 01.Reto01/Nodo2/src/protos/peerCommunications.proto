@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package peerCommunications;
+
+// Servicios
+service Peer2PeerService {
+    rpc HandleBootstrap (BootstrapRequest) returns (BootstrapResponse);
+    rpc GetData (GetDataRequest) returns (GetDataResponse);
+    rpc QueryFingerTable (FTRequest) returns (FTResponse);
+    rpc QueryFileList (FileListRequest) returns (FileListResponse);
+    rpc UploadFile (UploadFileRequest) returns (UploadFileResponse);
+    rpc DownloadFile (DownloadFileRequest) returns (DownloadFileResponse);
+    rpc Ping(PingRequest) returns (PingResponse);
+}
+
+
+// Mensajes para HandleBootstrap
+message BootstrapRequest {
+    string node_ip = 1;
+    int32 node_port = 2;
+}
+
+message BootstrapResponse {
+    int32 node_id_client = 1;
+    int32 id_chord_node = 2;
+    int32 node_id_predeccesor = 3;
+    int32 node_id_succesor = 4;
+    bool node_status = 5;
+}
+
+// NUEVO
+// Mensajes para GetData.
+message GetDataRequest {
+    int32 node_id = 1;
+    string node_ip = 2;
+    int32 node_port = 3;
+}
+
+message GetDataResponse {
+    int32 node_id_client = 1;
+    int32 id_chord_node = 2;
+    string node_ip_chord_node = 3;
+    int32 node_id_predeccesor = 4;
+    int32 node_id_succesor = 5;
+    string node_ip_succesor = 6;
+    int32 node_port_succesor = 7;
+    int32 number_of_nodes_in_network = 8;
+}
+
+// NUEVO
+// Mensajes para la QueryFingerTable
+message FTRequest {
+    int32 number_of_nodes_in_network = 1;
+    repeated int32 node_ids = 2;
+}
+
+message FTResponse {
+    //map<int32, string> node_urls = 1;  // Mapa de node_id a URL (ip:port)
+    repeated int32 node_ids = 1;
+    repeated string node_urls = 2;
+}
+
+
+// Mensajes para QueryFileList.
+message FileListRequest {
+    int32 node_id_required = 1;
+    string node_ip_required = 2;
+    int32 node_port_required = 3;
+    int32 next_node_id = 4;
+    string next_node_ip = 5;
+    int32 next_node_port = 6;
+}
+
+message FileListResponse {
+    string file_locations = 1;     
+    repeated string file_list = 2;          
+}
+
+
+// Mensajes para UploadFile
+message UploadFileRequest {
+    string file_name = 1;
+    string file_location = 2;
+}
+
+message UploadFileResponse {
+    string status = 1;
+}
+
+
+// Mensajes para DownloadFile
+message DownloadFileRequest {
+    int32 node_id_required = 1;
+    string node_ip_required = 2;
+    int32 node_port_required = 3;
+    string file_name = 4;
+    string file_location = 5;
+}
+
+message DownloadFileResponse {
+    string status = 1;
+}
+
+
+// Mensaje para hacer Ping
+message PingRequest {
+    string node_ip_required = 1;
+    int32 node_port_required = 2;
+}
+
+message PingResponse {
+    bool status = 1;
+}

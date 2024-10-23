@@ -1,0 +1,21 @@
+{
+    "BOOTSTAP": {
+        "node_id_client": 8,
+        "node_id_predecessor": 7,
+        "node_status": true
+    },
+    "GETDATA": {
+        "node_id_client": 8,
+        "node_ip_chord_node": "181.136.47.24:50051",
+        "node_id_predecessor": 7,
+        "node_ip_successor": "181.136.47.24:50051",
+        "node_port_successor": 50051,
+        "number_of_nodes_in_network": 9
+    },
+    "FINGERTABLE": {
+        "1": "181.136.47.24:50051",
+        "2": "181.136.47.24:50051",
+        "4": "181.136.47.24:50051",
+        "8": "181.136.47.24:50051"
+    }
+}

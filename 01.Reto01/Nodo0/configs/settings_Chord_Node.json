@@ -1,0 +1,56 @@
+[
+    {
+        "NodeID": 0,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 8,
+        "Successor": 1
+    },
+    {
+        "NodeID": 1,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 0,
+        "Successor": 2
+    },
+    {
+        "NodeID": 2,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 1,
+        "Successor": 3
+    },
+    {
+        "NodeID": 3,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 2,
+        "Successor": 4
+    },
+    {
+        "NodeID": 4,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 3,
+        "Successor": 5
+    },
+    {
+        "NodeID": 5,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 4,
+        "Successor": 6
+    },
+    {
+        "NodeID": 6,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 5,
+        "Successor": 7
+    },
+    {
+        "NodeID": 7,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 6,
+        "Successor": 8
+    },
+    {
+        "NodeID": 8,
+        "URL": "181.136.47.24:50051",
+        "Predecessor": 7,
+        "Successor": 0
+    }
+]

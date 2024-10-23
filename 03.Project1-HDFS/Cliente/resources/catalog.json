@@ -1,0 +1,68 @@
+[
+    {
+        "nombre": "downloaded_files",
+        "tipo": "carpeta",
+        "tamano-bytes": null,
+        "fecha_modificacion": "Fri Oct 18 14:48:26 2024",
+        "cantidad_archivos": 2,
+        "subcarpetas-archivos-internos": [
+            {
+                "nombre": "hola.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 5,
+                "fecha_modificacion": "Fri Oct 18 14:47:24 2024"
+            },
+            {
+                "nombre": "a.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 0,
+                "fecha_modificacion": "Fri Oct 18 14:41:52 2024"
+            }
+        ]
+    },
+    {
+        "nombre": "uploadable_files",
+        "tipo": "carpeta",
+        "tamano-bytes": null,
+        "fecha_modificacion": "Wed Oct 16 19:04:05 2024",
+        "cantidad_archivos": 5,
+        "subcarpetas-archivos-internos": [
+            {
+                "nombre": "hola.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 5,
+                "fecha_modificacion": "Mon Oct  7 00:02:53 2024"
+            },
+            {
+                "nombre": "xd.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 29,
+                "fecha_modificacion": "Wed Oct 16 10:15:30 2024"
+            },
+            {
+                "nombre": "a.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 49,
+                "fecha_modificacion": "Wed Oct 16 19:04:38 2024"
+            },
+            {
+                "nombre": "test.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 12,
+                "fecha_modificacion": "Wed Oct 16 06:55:43 2024"
+            },
+            {
+                "nombre": "datos.txt",
+                "tipo": "archivo",
+                "tamano-bytes": 19051,
+                "fecha_modificacion": "Fri Oct  4 22:50:50 2024"
+            }
+        ]
+    },
+    {
+        "nombre": "catalog.json",
+        "tipo": "archivo",
+        "tamano-bytes": 2077,
+        "fecha_modificacion": "Fri Oct 18 14:59:36 2024"
+    }
+]
