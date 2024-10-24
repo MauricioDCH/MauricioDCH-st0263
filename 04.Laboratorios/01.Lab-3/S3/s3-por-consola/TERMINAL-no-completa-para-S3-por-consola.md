@@ -1,3 +1,4 @@
+```bash
 mdch@mdch-X532FLC-S532FL:~/Documents/01._Ingeniería_de_Sistemas-EAFIT/04._SEM/06._S6-2024.02/04.Top_Telem/04-ACTIVIDADES/04.Laboratorios/01.Primer_Laboratorio$ ssh -i "laboratorio-3.pem" hadoop@ec2-3-234-143-224.compute-1.amazonaws.com
 
 A newer release of "Amazon Linux" is available.
@@ -31,81 +32,41 @@ EEEEEEEEEEEEEEEEEEEE MMMMMMM             MMMMMMM RRRRRRR      RRRRRR
                                                                     
 [hadoop@ip-172-31-10-177 ~]$ aws --version
 aws-cli/2.15.30 Python/3.9.16 Linux/6.1.109-118.189.amzn2023.x86_64 source/x86_64.amzn.2023 prompt/off
-
 [hadoop@ip-172-31-10-177 ~]$ aws s3 ls
 2024-10-18 14:43:03 aws-logs-779784271243-us-east-1
 2024-10-22 20:08:30 mdcorreahnotebooks
-
-COMANDO PARA CREAR UN NUEVO BUCKET
 [hadoop@ip-172-31-10-177 ~]$ aws s3api create-bucket --bucket datasetsbucket --region us-east-1
 {
     "Location": "/datasetsbucket"
 }
-
-###
-
-COMANDO PARA VER LOS BUCKETS QUE TENGO EN S3
 [hadoop@ip-172-31-10-177 ~]$ aws s3 ls
 2024-10-18 14:43:03 aws-logs-779784271243-us-east-1
 2024-10-22 21:01:07 datasetsbucket
 2024-10-22 20:08:30 mdcorreahnotebooks
-
-###
-
-COMANDO PARA CREAR UNA NUEVA CARPETA POR CONSOLA.
 [hadoop@ip-172-31-10-177 ~]$ aws s3api put-object --bucket datasetsbucket --key nueva_carpeta_por_comandos/
 {
     "ETag": "\"d41d8cd98f00b204e9800998ecf8427e\"",
     "ServerSideEncryption": "AES256"
 }
-
-###
-
-COMANDO PARA VER EL CONTENIDO DE MI BUCKET datasetsbucket.
 [hadoop@ip-172-31-10-177 ~]$ aws s3 ls s3://datasetsbucket/
                            PRE nueva_carpeta_por_comandos/
-
-###
-COMANDO QUE CREA EN LOCAL UN ARCHIVO emptyfile.txt Y LO SUBE EN S3 EN s3://datasetsbucket/nueva_carpeta_por_comandos/
-
 [hadoop@ip-172-31-10-177 ~]$ touch emptyfile.txt
 aws s3 cp emptyfile.txt s3://datasetsbucket/nueva_carpeta_por_comandos/
 upload: ./emptyfile.txt to s3://datasetsbucket/nueva_carpeta_por_comandos/emptyfile.txt
-
-###
-
-COMANDO PARA VER EL ARCHIVO RECIÉN CREADO emptyfile.txt
 [hadoop@ip-172-31-10-177 root]$ aws s3 ls s3://datasetsbucket/nueva_carpeta_por_comandos/
 2024-10-22 21:43:46          0 
 2024-10-22 21:48:26          0 emptyfile.txt
-
-
-COMANDO PARA TRAER UN ARCHIVO DESDE S3 A MI LOCAL.
 [hadoop@ip-172-31-10-177 root]$ sudo aws s3 cp s3://datasetsbucket/nueva_carpeta_por_comandos/otroArchivo.txt /home/hadoop/para_s3/
 download: s3://datasetsbucket/nueva_carpeta_por_comandos/otroArchivo.txt to ../home/hadoop/para_s3/otroArchivo.txt
-
-COMANDO PARA VER EL CONTENIDO DE MI ARCHIVO QUE ESTÁ EN S3 EN MI CONSOLA.
 [hadoop@ip-172-31-10-177 root]$ aws s3 cp s3://datasetsbucket/nueva_carpeta_por_comandos/otroArchivo.txt -
 Este es un archivo creado desde GUI en S3
-
-
-COMANDO EN EL QUE CREAMOS UN NUEVO BUCKET LLAMADO otrodatasetsbucket Y EL ARCHIVO otroArchivo.txt LO PASAMOS AL BUCKET CREADO CON
-EL NOMBRE DE ejemplo.txt
 [hadoop@ip-172-31-10-177 root]$ aws s3api create-bucket --bucket otrodatasetsbucket --region us-east-1
 {
     "Location": "/otrodatasetsbucket"
 }
 [hadoop@ip-172-31-10-177 root]$ aws s3 mv s3://datasetsbucket/nueva_carpeta_por_comandos/otroArchivo.txt s3://otrodatasetsbucket/ejemplo.txt
 move: s3://datasetsbucket/nueva_carpeta_por_comandos/otroArchivo.txt to s3://otrodatasetsbucket/ejemplo.txt
-
-
-COMANDO PARA PASAR DE HADOOP AL BUCKET.
 [hadoop@ip-172-31-10-177 root]$ hadoop fs -cp /user/hadoop/ s3a://datasetsbucket/
-
-
-aws s3 rm s3://datasetsb/ --recursive
-
-
 [hadoop@ip-172-31-10-177 root]$ aws s3api create-bucket --bucket datasetsb --region us-east-1
 [hadoop@ip-172-31-10-177 root]$ aws s3 cp /home/hadoop/st0263-242/bigdata/datasets/ s3://datasetsb/datasets --recursive
 upload: ../home/hadoop/st0263-242/bigdata/datasets/all-news/url.txt to s3://datasetsb/datasets/all-news/url.txt
@@ -147,13 +108,10 @@ upload: ../home/hadoop/st0263-242/bigdata/datasets/spark/sample_data.csv to s3:/
 upload: ../home/hadoop/st0263-242/bigdata/datasets/retail_logs/access.log.zip to s3://datasetsb/datasets/retail_logs/access.log.zip
 upload: ../home/hadoop/st0263-242/bigdata/datasets/spark/online-retail-dataset.csv.zip to s3://datasetsb/datasets/spark/online-retail-dataset.csv.zip
 upload: ../home/hadoop/st0263-242/bigdata/datasets/flights/departuredelays.csv to s3://datasetsb/datasets/flights/departuredelays.csv
-
-
 [hadoop@ip-172-31-10-177 root]$ sudo mkdir -p ~/datasets_local
 [hadoop@ip-172-31-10-177 root]$ sudo ls
 [hadoop@ip-172-31-10-177 root]$ sudo ls ~/datasets_local
 [hadoop@ip-172-31-10-177 root]$ sudo ls ~/
-
 [hadoop@ip-172-31-10-177 root]$ sudo aws s3 cp s3://datasetsb/datasets/ ~/datasets_local/ --recursive
 download: s3://datasetsb/datasets/all-news/url.txt to ../home/hadoop/datasets_local/all-news/url.txt
 download: s3://datasetsb/datasets/covid19/Casos_positivos_de_COVID-19_en_Colombia-1K.csv to ../home/hadoop/datasets_local/covid19/Casos_positivos_de_COVID-19_en_Colombia-1K.csv
@@ -194,7 +152,6 @@ download: s3://datasetsb/datasets/spark/movie_reviews.csv to ../home/hadoop/data
 download: s3://datasetsb/datasets/flights/departuredelays.csv to ../home/hadoop/datasets_local/flights/departuredelays.csv
 download: s3://datasetsb/datasets/retail_logs/access.log.zip to ../home/hadoop/datasets_local/retail_logs/access.log.zip
 download: s3://datasetsb/datasets/spark/online-retail-dataset.csv.zip to ../home/hadoop/datasets_local/spark/online-retail-dataset.csv.zip
-
 [hadoop@ip-172-31-10-177 root]$ hadoop fs -mkdir -p /user/hadoop/datasets_hadoop
 [hadoop@ip-172-31-10-177 root]$ hadoop fs -cp s3a://datasetsb/datasets/ /user/hadoop/datasets_hadoop/
 2024-10-22 22:45:42,327 INFO impl.MetricsConfig: Loaded properties from hadoop-metrics2.properties
@@ -204,3 +161,102 @@ download: s3://datasetsb/datasets/spark/online-retail-dataset.csv.zip to ../home
 2024-10-22 22:45:52,592 INFO impl.MetricsSystemImpl: Stopping s3a-file-system metrics system...
 2024-10-22 22:45:52,593 INFO impl.MetricsSystemImpl: s3a-file-system metrics system stopped.
 2024-10-22 22:45:52,593 INFO impl.MetricsSystemImpl: s3a-file-system metrics system shutdown complete.
+
+
+[hadoop@ip-172-31-9-11 root]$ sudo ls
+[hadoop@ip-172-31-9-11 root]$ aws s3 ls
+2024-10-18 14:43:03 aws-logs-779784271243-us-east-1
+2024-10-22 22:32:30 datasetsb
+2024-10-22 21:01:07 datasetsbucket
+2024-10-22 20:08:30 mdcorreahnotebooks
+2024-10-22 22:16:08 otrodatasetsbucket
+[hadoop@ip-172-31-9-11 root]$ aws s3api delete-bucket --bucket otrodatasetsbucket --region us-east-1
+
+An error occurred (BucketNotEmpty) when calling the DeleteBucket operation: The bucket you tried to delete is not empty
+[hadoop@ip-172-31-9-11 root]$ aws s3 rm s3://otrodatasetsbucket/ejemplo.txt
+delete: s3://otrodatasetsbucket/ejemplo.txt
+[hadoop@ip-172-31-9-11 root]$ aws s3 ls aws s3 ls s3://otrodatasetsbucket/
+
+Unknown options: s3,ls,s3://otrodatasetsbucket/
+[hadoop@ip-172-31-9-11 root]$ aws s3 ls s3://otrodatasetsbucket/
+[hadoop@ip-172-31-9-11 root]$ aws s3api delete-bucket --bucket otrodatasetsbucket --region us-east-1
+[hadoop@ip-172-31-9-11 root]$ aws s3 ls
+2024-10-18 14:43:03 aws-logs-779784271243-us-east-1
+2024-10-22 22:32:30 datasetsb
+2024-10-22 21:01:07 datasetsbucket
+2024-10-22 20:08:30 mdcorreahnotebooks
+
+[hadoop@ip-172-31-9-11 root]$ aws s3api get-public-access-block --bucket datasetsbucket
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": false,
+        "IgnorePublicAcls": false,
+        "BlockPublicPolicy": false,
+        "RestrictPublicBuckets": false
+    }
+}
+[hadoop@ip-172-31-9-11 root]$ aws s3api get-public-access-block --bucket datasetsb
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": true,
+        "IgnorePublicAcls": true,
+        "BlockPublicPolicy": true,
+        "RestrictPublicBuckets": true
+    }
+}
+[hadoop@ip-172-31-9-11 root]$ aws s3api get-public-access-block --bucket datasetsb --public-access-block-configuration '{
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+}'
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+Unknown options: --public-access-block-configuration, {
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+}
+
+[hadoop@ip-172-31-9-11 root]$ aws s3api put-public-access-block --bucket datasetsb --public-access-block-configuration '{
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+}'
+[hadoop@ip-172-31-9-11 root]$ aws s3api put-public-access-block --bucket mdcorreahnotebooks --public-access-block-configuration '{
+    "BlockPublicAcls": false,
+    "IgnorePublicAcls": false,
+    "BlockPublicPolicy": false,
+    "RestrictPublicBuckets": false
+}'
+[hadoop@ip-172-31-9-11 root]$ aws s3api get-public-access-block --bucket datasetsb
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": false,
+        "IgnorePublicAcls": false,
+        "BlockPublicPolicy": false,
+        "RestrictPublicBuckets": false
+    }
+}
+[hadoop@ip-172-31-9-11 root]$ aws s3api get-public-access-block --bucket mdcorreahnotebooks
+{
+    "PublicAccessBlockConfiguration": {
+        "BlockPublicAcls": false,
+        "IgnorePublicAcls": false,
+        "BlockPublicPolicy": false,
+        "RestrictPublicBuckets": false
+    }
+}
+
+[hadoop@ip-172-31-9-11 root]$ aws s3 cp s3://datasetsb/datasets/spark/movie_reviews.csv s3://datasetsbucket/nueva_carpeta_por_comandos/movie_reviews.csv
+copy: s3://datasetsb/datasets/spark/movie_reviews.csv to s3://datasetsbucket/nueva_carpeta_por_comandos/movie_reviews.csv
+
+```
