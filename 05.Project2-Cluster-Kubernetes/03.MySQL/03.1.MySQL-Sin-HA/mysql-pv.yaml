@@ -1,0 +1,17 @@
+# mysql-pv.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-csi
+  nfs:
+    server: 172.31.29.85  # Dirección IP de tu servidor NFS
+    path: /srv/nfs        # Ruta del directorio compartido NFS

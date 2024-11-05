@@ -1,0 +1,16 @@
+# wordpress-pv.yaml
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wordpress-pv
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs-csi  # Debe coincidir con tu StorageClass disponible
+  nfs:
+    path: /srv/nfs  # Asegúrate de que esta ruta sea correcta
+    server: 172.31.29.85  # Cambia esto por la IP de tu servidor NFS

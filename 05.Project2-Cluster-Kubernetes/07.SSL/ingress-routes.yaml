@@ -1,0 +1,27 @@
+# ingress-routes.yaml
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-routes
+  annotations:
+    # Change this when staging already works for "letsencrypt-prod"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+#change to your domain
+    - proyecto2.miguapa.tech
+    secretName: tls-secret
+  rules:
+#change to your domain
+  - host: proyecto2.miguapa.tech
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: wordpress
+            port:
+              number: 80
