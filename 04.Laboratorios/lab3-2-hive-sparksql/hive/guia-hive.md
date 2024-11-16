@@ -1275,33 +1275,503 @@ SELECT h.country, gni, expct FROM hdis3 h JOIN expo e ON (h.country = e.country)
 
 ![join-tables](fotos-hive/25-join-tables.png)
 
-# FALTA...
-## . WORDCOUNT EN HIVE:
 
-    --- alternativa1:
-    use usernamedb;
+## 3. Comandos finales en HIVE.
+```sql
+-- Mostrar las bases de datos
+SHOW DATABASES;
+
+-- Mostrar las tablas que existen en el momento.
+SHOW TABLES;
+
+-- Crea una nueva tabla llamada "hdilabhive" con las siguientes columnas:
+  -- id       : Entero que representa el identificador único de cada registro.
+  -- country  : Cadena de texto que almacena el nombre del país.
+  -- hdi      : Valor flotante que representa el Índice de Desarrollo Humano (HDI) del país.
+  -- lifeex   : Entero que representa la expectativa de vida en años.
+  -- mysch    : Entero que indica los años promedio de escolaridad en la población.
+  -- eysch    : Entero que representa los años esperados de escolaridad.
+  -- gni      : Entero que indica el Ingreso Nacional Bruto (GNI) por persona en dólares.
+
+CREATE TABLE hdilabhive (id INT, country STRING, hdi FLOAT, lifeex INT, mysch INT, eysch INT, gni INT) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+STORED AS TEXTFILE
+
+-- Mostrar de nuevo las tablas que existen en el momento pare verificar la creación de la tabla 'hdilabhive'.
+SHOW TABLES;
+
+-- Comando para mostrar las 10 primeras entradas de la base de datos 'hdilabhive'
+SELECT * FROM hdilabhive LIMIT 10;
+
+-- Comando para mostrar todas las entradas de la base de datos 'hdilabhive'
+SELECT * FROM hdilabhive;
+
+-- Creamos la tabla nueva de prueba llamada exportdata, verificando cuales son los datos del archivo que vamos a subir.
+CREATE TABLE exportdata (id INT,country STRING, hdi FLOAT, lifeex INT, myschool INT, eyschool INT, gni INT, gni2 INT, nihdi FLOAT )
+ROW FORMAT DELIMITED  FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE;
+
+-- Verificaos la creación de la tabla.
+SHOW TABLES;
+
+-- Cargar los datos en la tabla exportdata desde HDFS.
+LOAD DATA INPATH '/user/hadoop/datasets/onu/hdi/hdi-data.csv' INTO TABLE exportdata;
+
+-- Cargamos los datos desde la tabla con un límite de 10 salidas para que no me muestre todo.
+SELECT * FROM exportdata;
+
+-- Creamos tabla externa en hadoop por GUI.
+CREATE EXTERNAL TABLE hdiextxgui (id INT, country STRING, hdi FLOAT, lifeex INT, mysch INT, eysch INT, gni INT) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE 
+LOCATION '/user/hadoop/datasets/onu/hdi/'
+
+-- Creamos la query a la tabla llamada 'hdiextxgui'
+SELECT * FROM hdiextxgui LIMIT 10;
+
+-- Tabla externa en S3: 
+CREATE EXTERNAL TABLE hdiens3 (id INT, country STRING, hdi FLOAT, lifeex INT, mysch INT, eysch INT, gni INT) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE 
+LOCATION 's3://datasets-mauricio/datasets/onu/hdi'
+
+-- Verificaos la creación de la tabla.
+SHOW TABLES;
+
+-- Creamos la query a la tabla llamada 'hdiens3'
+SELECT * FROM hdiens3 LIMIT 10;
+
+-- REALIZADO CON beeline.
+SELECT country, gni FROM hdiens3 WHERE gni > 2000;
+
+-- JOIN...
+-- Crear la tabla EXPO:
+CREATE EXTERNAL TABLE EXPO (country STRING, expct FLOAT) 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' 
+STORED AS TEXTFILE 
+LOCATION 's3://datasets-mauricio/datasets/onu/export';
+
+-- Verificaos la creación de la tabla.
+SHOW TABLES;
+
+-- Creamos la query a la tabla llamada 'expo'
+SELECT * FROM expo LIMIT 10;
+
+-- EJECUTAR EL JOIN DE 2 TABLAS 'hdiens3' y 'expo':
+SELECT h.country, gni, expct FROM hdiens3 h JOIN expo e ON (h.country = e.country) WHERE gni > 2000;
+```
+
+## WORDCOUNT EN HIVE:
+
+### Alternativa 1.
+
+- #### Verificamos el contenido de la carpeta.
+    ```bash
+    hdfs dfs -ls hdfs:///user/hadoop/datasets/gutenberg-small/
+    ```
+    No tenemos el contenido de esta carpeta, entonces la creamos.
+    
+    Verificamos dónde está, en mi caso está acá:
+    ```bash
+    ls st0263-242/bigdata/datasets/gutenberg-small/
+    ```
+- #### Copiamos el contenido de esta carpeta local a la carpeta de hadoop.
+    ```bash
+    hdfs dfs -put st0263-242/bigdata/datasets/gutenberg-small/* hdfs:///user/hadoop/datasets/gutenberg-small/
+    ```
+
+- #### Volvemos a verificar el contenido de la carpeta en hadoop (Ahora ya están.)
+    ```bash
+    [hadoop@ip-172-31-20-107 ~]$ hdfs dfs -ls hdfs:///user/hadoop/datasets/gutenberg-small/
+    Found 16 items
+    -rw-r--r--   1 hadoop hdfsadmingroup       5878 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___LincolnLetters.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup      21586 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___LincolnsFirstInauguralAddress.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup       1653 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___LincolnsGettysburgAddressGivenNovember-19-1863.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     262083 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___LincolnsInauguralsAddressesandLettersSelections.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup       4093 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___LincolnsSecondInauguralAddress.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     516298 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___SpeechesandLettersofAbrahamLincoln1832-1865.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     167895 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___StateoftheUnionAddresses.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup       3928 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheEmancipationProclamation.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup      45664 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheLifeandPublicServiceofGeneralZacharyTaylorAnAddress.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     459006 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume1.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     505150 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume2.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     254941 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume3.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     209643 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume4.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     692051 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume5.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     601102 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume6.txt
+    -rw-r--r--   1 hadoop hdfsadmingroup     478689 2024-11-15 03:03 hdfs:///user/hadoop/datasets/gutenberg-small/AbrahamLincoln___TheWritingsofAbrahamLincolnVolume7.txt
+
+    ```
+- #### Creamos la tabla.
+    ```sql
     CREATE EXTERNAL TABLE docs (line STRING) 
     STORED AS TEXTFILE 
-    LOCATION 'hdfs://localhost/user/hadoop/datasets/gutenberg-small/';
+    LOCATION 'hdfs:///user/hadoop/datasets/gutenberg-small/';
+    ```
 
-    --- alternativa2:
-    CREATE EXTERNAL TABLE docs (line STRING) 
-    STORED AS TEXTFILE 
-    LOCATION 's3://emontoyadatasets/gutenberg-small/';
+- #### Vamos a hacer varias queries.
+    ```sql
+    -- Creamos la query a la tabla llamada 'docs'
+    SELECT * FROM docs;
 
-
-    // ordenado por palabra
-
+    -- Ordenar por palabra y traer máximo 10 palabras de manera descendente
     SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
     GROUP BY word 
     ORDER BY word DESC LIMIT 10;
 
-    // ordenado por frecuencia de menor a mayor
+    -- Ordenar por palabra y traer todas las palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY word DESC;
 
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
     SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
     GROUP BY word 
     ORDER BY count DESC LIMIT 10;
 
-    ### RETO:
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY count DESC;
 
-    ¿cómo llenar una tabla con los resultados de un Query? por ejemplo, como almacenar en una tabla el diccionario de frecuencia de palabras en el wordcount?
+    -- Ordenado por frecuencia de mayor a menor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY count ASC;
+    ```
+
+- #### COMANDOS COMPLETOS PARA ALTERNATIVA 1.
+    ```SQL
+    -- Creamos la tabla 'docs'.
+    CREATE EXTERNAL TABLE docs (line STRING) 
+    STORED AS TEXTFILE 
+    LOCATION 'hdfs:///user/hadoop/datasets/gutenberg-small/';
+
+    -- Verificaos la creación de la tabla.
+    SHOW TABLES;
+
+    -- Creamos la query a la tabla llamada 'docs'
+    SELECT * FROM docs;
+
+    -- Ordenar por palabra y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY word DESC LIMIT 10;
+
+    -- Ordenar por palabra y traer todas las palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY word DESC;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY count DESC LIMIT 10;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+    -- Ordenado por frecuencia de mayor a menor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docs) w 
+    GROUP BY word 
+    ORDER BY count ASC;
+    ```
+
+
+### Alternativa 2.
+
+- #### Verificamos el contenido de la carpeta en el bucket.
+    ```bash
+    [hadoop@ip-172-31-20-107 ~]$ aws s3 ls s3://datasets-mauricio/datasets/gutenberg-small/
+    2024-11-15 02:01:19       5878 AbrahamLincoln___LincolnLetters.txt
+    2024-11-15 02:01:26      21586 AbrahamLincoln___LincolnsFirstInauguralAddress.txt
+    2024-11-15 02:01:20       1653 AbrahamLincoln___LincolnsGettysburgAddressGivenNovember-19-1863.txt
+    2024-11-15 02:01:24     262083 AbrahamLincoln___LincolnsInauguralsAddressesandLettersSelections.txt
+    2024-11-15 02:01:24       4093 AbrahamLincoln___LincolnsSecondInauguralAddress.txt
+    2024-11-15 02:01:21     516298 AbrahamLincoln___SpeechesandLettersofAbrahamLincoln1832-1865.txt
+    2024-11-15 02:01:18     167895 AbrahamLincoln___StateoftheUnionAddresses.txt
+    2024-11-15 02:01:19       3928 AbrahamLincoln___TheEmancipationProclamation.txt
+    2024-11-15 02:01:21      45664 AbrahamLincoln___TheLifeandPublicServiceofGeneralZacharyTaylorAnAddress.txt
+    2024-11-15 02:01:25     459006 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume1.txt
+    2024-11-15 02:01:20     505150 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume2.txt
+    2024-11-15 02:01:18     254941 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume3.txt
+    2024-11-15 02:01:25     209643 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume4.txt
+    2024-11-15 02:01:22     692051 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume5.txt
+    2024-11-15 02:01:23     601102 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume6.txt
+    2024-11-15 02:01:27     478689 AbrahamLincoln___TheWritingsofAbrahamLincolnVolume7.txt
+
+- #### Creamos la tabla.
+    ```sql
+    -- Creamos la tabla 'docss3'.
+    CREATE EXTERNAL TABLE docss3 (line STRING) 
+    STORED AS TEXTFILE 
+    LOCATION 's3://datasets-mauricio/datasets/gutenberg-small/';
+    ```
+
+- #### Vamos a hacer varias queries.
+    ```sql
+    -- Creamos la query a la tabla llamada 'docs'
+    SELECT * FROM docss3;
+
+    -- Ordenar por palabra y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY word DESC LIMIT 10;
+
+    -- Ordenar por palabra y traer todas las palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY word DESC;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count DESC LIMIT 10;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+    -- Ordenado por frecuencia de mayor a menor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count ASC;
+    ```
+
+- #### COMANDOS COMPLETOS PARA ALTERNATIVA 1.
+    ```SQL
+    -- Creamos la tabla 'docss3'.
+    CREATE EXTERNAL TABLE docss3 (line STRING) 
+    STORED AS TEXTFILE 
+    LOCATION 's3://datasets-mauricio/datasets/gutenberg-small/';
+
+    -- Verificaos la creación de la tabla.
+    SHOW TABLES;
+
+    -- Creamos la query a la tabla llamada 'docs'
+    SELECT * FROM docss3;
+
+    -- Ordenar por palabra y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY word DESC LIMIT 10;
+
+    -- Ordenar por palabra y traer todas las palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY word DESC;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count DESC LIMIT 10;
+
+    -- Ordenado por frecuencia de menor a mayor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+    -- Ordenado por frecuencia de mayor a menor y traer máximo 10 palabras de manera descendente
+    SELECT word, count(1) AS count FROM (SELECT explode(split(line,' ')) AS word FROM docss3) w 
+    GROUP BY word 
+    ORDER BY count ASC;
+    ```
+
+# RETO:
+
+### **¿Cómo llenar una tabla con los resultados de un Query? por ejemplo, como almacenar en una tabla el diccionario de frecuencia de palabras en el wordcount?**
+
+Hay dos formas interesantes de crear tablas .
+
+- ### Opción 1: Creamos la tabla primero y luego hacemos la inserción a la tabla que saca el query.
+
+    ```sql
+    -- OPCIÓN 1.
+    -- Crear la tabla 'word_frequency' si no existe
+    CREATE TABLE IF NOT EXISTS word_frequency (
+        word STRING,
+        count INT
+    );
+
+    -- Verificamos la creación de la tabla.
+    SHOW TABLES;
+
+    -- Verificamos que la tabla esté vacía
+    SELECT * FROM word_frequency;
+
+    -- Llenar la tabla con los resultados del query
+    INSERT INTO word_frequency
+    SELECT word, count(1) AS count 
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+    -- Verificamos la creación del contenido de la tabla.
+    SELECT * FROM word_frequency;
+
+    -- Eliminamos la tabla (Si lo desea, en mi caso no lo haré).
+    DROP TABLE word_frequency;
+
+    -- Verificamos la eliminación de la tabla.
+    SHOW TABLES;
+    ```
+- ### Opción 2: Creamos la tabla directamante con el resultado.
+
+    ```sql
+    -- OPCIÓN 2.
+    -- Crear la tabla 'word_frequency_ctas' si no existe
+    CREATE TABLE word_frequency_ctas AS
+    SELECT word, count(1) AS count 
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+    -- Verificamos la creación del contenido de la tabla.
+    SELECT * FROM word_frequency_ctas;
+    ```
+
+## RETO PERSONAL.
+**¿Hay alguna forma guardar el resultado que se creó ahí, insertarlo en un archivo de hadoop o s3?** SI, de las siguientes maneras.
+
+- ### Opción 1: Usar `INSERT OVERWRITE DIRECTORY` en Hive.
+
+    ```sql
+    -- RETO PERSONAL.
+    -- Opción 1: Usar `INSERT OVERWRITE DIRECTORY` en Hive.
+    INSERT OVERWRITE DIRECTORY '/user/hadoop/wordcount_output'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+    SELECT word, count(1) AS count 
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+    ```
+
+- ### Opción 2: Exportar a HDFS usando `hive -e` y usamos `CREATE EXTERNAL TABLE` para guardar directamente en HDFS.
+
+    **Esto se hace en la consola del master.**
+    ```bash
+    hive -e "
+    SET hive.cli.print.header=true;
+
+    SELECT CONCAT(word, ',', count(1)) AS csv_row
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count(1) DESC;" > /tmp/wordcount_output.csv
+
+    # Subir el archivo al sistema de archivos HDFS
+    hadoop fs -put /tmp/wordcount_output.csv /user/hadoop/wordcount_output/
+    ```
+    **Esto lo hacemos en hive.**
+    ```sql
+    -- Opción 2: Exportar a HDFS usando `hive -e`.
+    CREATE EXTERNAL TABLE wordcount_table_hive (
+        word STRING,
+        count INT
+    )
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    LOCATION '/user/hadoop/wordcount_output/';
+
+    -- Hacemos la query a la tabla 'wordcount_table_hive'.
+    SELECT * FROM wordcount_table_hive;
+    ```
+    **Resultado en consola.**
+    ```bash
+    [hadoop@ip-172-31-20-107 ~]$ hive -e "                     
+    SET hive.cli.print.header=true;
+
+    SELECT CONCAT(word, ',', count(1)) AS csv_row
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count(1) DESC;" > /tmp/wordcount_output.csv
+    Hive Session ID = d1a5bb7a-322f-4720-a44e-6ac66926d0a6
+
+    Logging initialized using configuration in file:/etc/hive/conf.dist/hive-log4j2.properties Async: false
+    Query ID = hadoop_20241115042752_ad852b1f-8d6f-4689-99ce-3f1d68bc59f4
+    Total jobs = 1
+    Launching Job 1 out of 1
+    Status: Running (Executing on YARN cluster with App id application_1731633962084_0018)
+
+    Map 1: -/-	Reducer 2: 0/2	Reducer 3: 0/1	
+    Map 1: 0/1	Reducer 2: 0/2	Reducer 3: 0/1	
+    Map 1: 0/1	Reducer 2: 0/2	Reducer 3: 0/1	
+    Map 1: 0(+1)/1	Reducer 2: 0/2	Reducer 3: 0/1	
+    Map 1: 0(+1)/1	Reducer 2: 0/2	Reducer 3: 0/1	
+    Map 1: 1/1	Reducer 2: 0(+1)/2	Reducer 3: 0/1	
+    Map 1: 1/1	Reducer 2: 2/2	Reducer 3: 0(+1)/1	
+    Map 1: 1/1	Reducer 2: 2/2	Reducer 3: 1/1	
+    OK
+    Time taken: 23.967 seconds, Fetched: 38683 row(s)
+    [hadoop@ip-172-31-20-107 ~]$ hadoop dfs -put /tmp/wordcount_output.csv /user/hadoop/wordcount_output/
+    WARNING: Use of this script to execute dfs is deprecated.
+    WARNING: Attempting to execute replacement "hdfs dfs" instead.
+    ```
+
+
+
+- ### TODOS LOS COMANDOS DEL RETO.
+
+    ```sql
+    -- RETO PERSONAL.
+    -- Opción 1: Usar `INSERT OVERWRITE DIRECTORY` en Hive.
+    INSERT OVERWRITE DIRECTORY '/user/hadoop/wordcount_output'
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY '\t'
+    SELECT word, count(1) AS count 
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count DESC;
+
+
+    -- Opción 2: Exportar a HDFS usando `hive -e`.
+    -- ATENCIÓN: Esto va en la consola del master.
+    -----------------------------------------------------------------------------
+    hive -e "
+    SET hive.cli.print.header=true;
+
+    SELECT CONCAT(word, ',', count(1)) AS csv_row
+    FROM (
+        SELECT explode(split(line,' ')) AS word 
+        FROM docss3
+    ) w 
+    GROUP BY word 
+    ORDER BY count(1) DESC;" > /tmp/wordcount_output.csv
+
+    -- Pasamos el archivo a hadoop.
+    hadoop fs -put /tmp/wordcount_output.csv /user/hadoop/wordcount_output/
+    -----------------------------------------------------------------------------
+
+
+    CREATE EXTERNAL TABLE wordcount_table_hive (
+        word STRING,
+        count INT
+    )
+    ROW FORMAT DELIMITED
+    FIELDS TERMINATED BY ','
+    LOCATION '/user/hadoop/wordcount_output/';
+
+    -- Hacemos la query a la tabla 'wordcount_table_hive'.
+    SELECT * FROM wordcount_table_hive;
+    ```
