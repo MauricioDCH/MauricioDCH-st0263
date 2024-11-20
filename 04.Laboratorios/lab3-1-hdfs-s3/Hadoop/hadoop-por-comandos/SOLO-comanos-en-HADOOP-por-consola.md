@@ -5,7 +5,7 @@
 Podemos ingresar la siguiente información para crear el usuario.
 
 - **User:** hadoop
-- **Contraseña:** GHMauricio159!!!
+- **Contraseña:** HMauricio159!!!
 
 Para entrar por terminal con Linux, después de haber creado el usuario `hadoop`.
 

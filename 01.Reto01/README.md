@@ -23,7 +23,7 @@ Despliegue en contenerizacion con docker, despliege en AWS, redirección de peti
 
 # 2. Información general de diseño de alto nivel, arquitectura, patrones, mejores prácticas utilizadas.
 
-![alt text](Application/Images/Arquitectura_Inicial_P2P.jpg)
+![Arquitectura](Images/Arquitectura_Inicial_P2P.jpg)
 
 # 3. Descripción del ambiente de desarrollo y técnico: lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.
 
@@ -108,7 +108,7 @@ Nodo0
 ```
 ## 
 ## Opcionalmente - si quiere mostrar resultados o pantallazos 
-![alt text](Application/Images/Ejecución.png)
+![alt text](Images/Ejecución.png)
 
 
 # 4. Descripción del ambiente de EJECUCIÓN (en producción) lenguaje de programación, librerias, paquetes, etc, con sus numeros de versiones.

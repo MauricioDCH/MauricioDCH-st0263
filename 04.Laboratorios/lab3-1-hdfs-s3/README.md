@@ -66,8 +66,8 @@ Hadoop es popular en proyectos de big data y permite procesar grandes volúmenes
 
 ### Las guías de solución para el sistema HADOOP están en el repositorio en los siguientes links.
 
-- [Hadoop por línea de comandos.](Hadoop/hadoop-por-comandos/SOLO-comanos-en-HADOOP-por-consola.md)
-- [Hadoop por GUI.](Hadoop/hadoop-por-gui/GUI-Para-Hadoop.md)
+- ## [Guía Hadoop por línea de comandos.](Hadoop/hadoop-por-comandos/SOLO-comanos-en-HADOOP-por-consola.md)
+- ## [Guía Hadoop por GUI.](Hadoop/hadoop-por-gui/GUI-Para-Hadoop.md)
 
 ## Amazon S3 (Simple Storage Service) - AWS
 
@@ -82,5 +82,5 @@ Amazon S3 es un servicio de almacenamiento de objetos en la nube ofrecido por Am
 Amazon S3 es utilizado en combinación con herramientas como Hadoop y Spark para almacenamiento y análisis de grandes volúmenes de datos en la nube, permitiendo acceder y gestionar estos datos de manera remota y segura.
 
 ### Las guías de solución para el sistema S3 están en el repositorio en los siguientes links.
-- [Amazon S3 por línea de comandos.](S3/s3-por-consola/SOLO-comanos-en-S3-por-consola.md)
-- [Amazon S3 por GUI.](S3/s3-por-gui/GUI-Para-S3.md)
+- ## [Guía Amazon S3 por línea de comandos.](S3/s3-por-consola/SOLO-comanos-en-S3-por-consola.md)
+- ## [Guía Amazon S3 por GUI.](S3/s3-por-gui/GUI-Para-S3.md)

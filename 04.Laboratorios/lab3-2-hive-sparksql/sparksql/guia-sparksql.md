@@ -48,11 +48,6 @@ Y listo, ya puede realizar notebooks pyspark, verifique que las 2 variables más
 ![jupyter-notebook-edit](fotos-sparksql/6-jupyter-notebook-edit.png)
 
 
-
-
-
-
-
 ## 2. Comandos que se van a ejecutar en el notebook "sparksql_notebook.ipynb".
 ```sql
 -- Mostrar todoas las tablas.

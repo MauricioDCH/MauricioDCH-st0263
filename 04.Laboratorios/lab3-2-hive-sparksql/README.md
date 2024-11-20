@@ -35,7 +35,7 @@ Hive es ideal para **procesamiento batch** y consultas de datos estructurados, c
 
 ### Las guías de solución para el sistema HIVE están en el repositorio en los siguientes links.
 
-- [Guía de Hive.](hive/guia-hive.md)
+- ## [Guía de Hive.](hive/guia-hive.md)
 
 
 
@@ -55,4 +55,4 @@ Spark SQL es ideal para aplicaciones de big data que requieren consultas interac
 
 ### Las guías de solución para el sistema HIVE están en el repositorio en los siguientes links.
 
-- [Guía de SparkSQL.](sparksql/guia-sparksql.md)
+- ## [Guía de SparkSQL.](sparksql/guia-sparksql.md)

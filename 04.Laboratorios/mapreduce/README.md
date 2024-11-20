@@ -1,7 +1,7 @@
 # Universidad EAFIT
 # Curso ST0263 Tópicos Especiales en Telemática, 2024-2
 
-# Demo MapReduce en Python con MRJOB
+# GUÍA Demo MapReduce en Python con MRJOB
 
 Para crear un entorno virtual en Python, siga estos pasos:
 
@@ -73,7 +73,3 @@ Se ejecutará algo similar a esto:
 * el directorio 'result*' no puede existir)
 
 ## "-D mapred.reduce.tasks=10" para especificar el nro de reducers en MRJOB
-## Crear un entorno virtual en Python
-
-
-
